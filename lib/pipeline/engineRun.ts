@@ -198,6 +198,10 @@ export async function runCompany(
     }
   }
 
+  // No readable page at all (bot-blocked / JS-only site): never score on nothing, hold for a manual look.
+  const noPages = adapters.kind === "real" && pages.length === 0;
+  if (noPages) flags.add("SCRAPE_FAILED");
+
   // Map pain library text for any missing text (safety)
   void PAIN_LIBRARY;
 
@@ -215,7 +219,7 @@ export async function runCompany(
     pains,
     draft,
     flags: [...flags],
-    verdict: qualification.verdict === "GO" && !poc ? "HOLD" : qualification.verdict,
-    hold_reason,
+    verdict: noPages ? "HOLD" : qualification.verdict === "GO" && !poc ? "HOLD" : qualification.verdict,
+    hold_reason: noPages ? "SCRAPE_FAILED" : hold_reason,
   };
 }

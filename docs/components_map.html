@@ -1,0 +1,51 @@
+<html><body style="margin:0;background:#fff;font-family:Arial,Helvetica,sans-serif;width:1800px;color:#111">
+<style>
+.t{font-size:40px;font-weight:700;margin:0}.s{font-size:22px;color:#444;margin:6px 0 20px}
+.lane{border:3px solid;border-radius:16px;padding:14px 18px;margin:0 0 18px}
+.lane>h3{margin:0 0 10px;font-size:24px;letter-spacing:.04em;text-transform:uppercase}
+.r{display:flex;gap:16px;align-items:stretch}
+.b{flex:1;border:2px solid #333;border-radius:12px;padding:12px 14px;font-size:21px;line-height:1.3;background:#fff}
+.b b{display:block;font-size:23px;margin-bottom:3px}
+.a{align-self:center;font-size:40px;font-weight:700;color:#333}
+.ui{border-color:#7c5cff;background:#f3f0ff}.ai{border-color:#0ea5a5;background:#e8fafa}.api{border-color:#d97706;background:#fff6e5}.db{border-color:#16a34a;background:#eafaf0}.gd{border-color:#dc2626;background:#fdeeee}
+</style>
+<div style="padding:30px 40px">
+<p class="t">Sprinto Outreach Engine: Components Map</p>
+<p class="s">User interface → pipeline → AI layer → external APIs → data → human review → send → measure. Arrows show data flow.</p>
+
+<div class="lane ui"><h3>1 · User interface (Next.js 15, hosted on Vercel)</h3><div class="r">
+<div class="b"><b>Home / Landing</b>Product overview</div><span class="a">→</span>
+<div class="b"><b>New run (Step 0)</b>Paste domains, CSV upload, Discover, fixtures</div><span class="a">→</span>
+<div class="b"><b>Run progress</b>Live stage, verdict, score, cost per company</div><span class="a">→</span>
+<div class="b"><b>Why? panel</b>Evidence, contacts, pains, draft, validator</div><span class="a">→</span>
+<div class="b"><b>Review gate (G)</b>Approve / Edit / Reject + reason</div><span class="a">→</span>
+<div class="b"><b>Metrics (M) + ICP settings</b>Opens, edit ratio, versioned ICP</div></div></div>
+
+<div class="lane gd"><h3>2 · Orchestration (Postgres state machine)</h3><div class="r">
+<div class="b"><b>Worker /api/worker/tick</b>Claims queued companies (FOR UPDATE SKIP LOCKED), resumable, retries</div><span class="a">→</span>
+<div class="b"><b>Pipeline stages 1–7</b>Scrape → Extract → Qualify → Find PoC → Pains → Draft → Send</div><span class="a">→</span>
+<div class="b"><b>Deterministic engine (code)</b>7-criterion ICP score, gates, verdict, PoC ranking, validator V1–V9. The AI never decides these.</div></div></div>
+
+<div class="lane ai"><h3>3 · AI / model layer</h3><div class="r">
+<div class="b"><b>Extractor</b>Gemini 3.7 Flash returns structured JSON with verbatim quotes</div><span class="a">→</span>
+<div class="b"><b>Research agent</b>Fills unknown criteria (max 3 loops)</div><span class="a">→</span>
+<div class="b"><b>Pain rationale</b>1–2 sentence reason per pain</div><span class="a">→</span>
+<div class="b"><b>Writer + Critic</b>Personalised email, rubric score, one rewrite</div><span class="a">→</span>
+<div class="b"><b>Gateway</b>OpenRouter, Google models only (Vertex / AI Studio), Zod-validated, logged to llm_calls</div></div></div>
+
+<div class="lane api"><h3>4 · APIs and tools</h3><div class="r">
+<div class="b"><b>Jina Reader / fetch + Readability</b>Scrape company pages (robots.txt respected)</div>
+<div class="b"><b>DNS lookups</b>Cloud provider signals</div>
+<div class="b"><b>Google News RSS</b>Discover recent funding news</div>
+<div class="b"><b>Hunter.io</b>Decision-maker search (GO only, quota-checked)</div>
+<div class="b"><b>Resend / Gmail</b>Send to the demo inbox only</div></div></div>
+
+<div class="lane db"><h3>5 · Data sources and storage</h3><div class="r">
+<div class="b"><b>Neon Postgres</b>runs, companies, pages, evidence, qualifications, contacts, pain_points, drafts, reviews, sends, email_events, icp_config, llm_calls</div>
+<div class="b"><b>Company websites</b>Homepage, about, careers, security, customers</div>
+<div class="b"><b>News + Hunter results</b>Funding hooks, contacts</div>
+<div class="b"><b>Config</b>Versioned ICP params, allowed Sprinto claims</div>
+<div class="b"><b>Tracking pixel</b>/api/t/o/:id logs opens</div></div></div>
+
+<p style="font-size:22px;margin:6px 0 0"><b>Flow:</b> domains → pages → evidence → qualification → contact → 2 pains → draft → <b>human review gate</b> → email to demo inbox → opens and edit ratio.&nbsp; <b>Guardrails:</b> every send is hard-asserted to one recipient, no fact without a quote and URL, no LinkedIn scraping.</p>
+</div></body></html>

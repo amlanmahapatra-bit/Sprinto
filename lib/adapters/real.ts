@@ -42,7 +42,43 @@ async function withTimeout<T>(p: Promise<T>, ms = TIMEOUT_MS): Promise<T> {
   ]);
 }
 
+const BROWSER_UA =
+  "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0 Safari/537.36";
+const MIN_USEFUL = 400; // shorter than this is an error stub / empty shell, not a page
+const JUNK = /Target URL returned error|Just a moment|Access denied|Attention Required|enable javascript|403 Forbidden|404 Not Found|captcha/i;
+const isUseful = (md: string) => md.trim().length >= MIN_USEFUL && !(md.length < 1500 && JUNK.test(md));
+
+/** Strip boilerplate that crowds out real content (cookie banners, images, bare links, nav stubs). */
+function cleanMd(md: string): string {
+  const COOKIE = /cookie|consent|cookiebot|iabv2|onetrust|gdpr banner|accept all|manage preferences|powered by/i;
+  const out: string[] = [];
+  let skipBlock = 0;
+  for (let line of md.split("\n")) {
+    line = line
+      .replace(/!\[[^\]]*\]\([^)]*\)/g, "") // images
+      .replace(/\[([^\]]*)\]\((?:https?:\/\/|#|\/)[^)]*\)/g, "$1") // links → text
+      .replace(/\s+$/, "");
+    const t = line.trim();
+    if (!t || /^[*\-+]\s*$/.test(t)) continue;
+    if (/^(Title|URL Source|Final URL|Published Time|Markdown Content):/i.test(t)) continue;
+    if (/Maximum Storage Duration|HTTP Cookie|HTML Local Storage|cookiebot|IABV2|Show details|Learn more about this provider/i.test(t)) continue;
+    if (COOKIE.test(t) && t.length < 400) { skipBlock = 6; continue; }
+    if (skipBlock > 0 && t.length < 80) { skipBlock--; continue; }
+    skipBlock = 0;
+    if (t.length < 3) continue;
+    out.push(line);
+  }
+  return out.join("\n");
+}
+
 async function fetchMarkdown(url: string): Promise<{ md: string; via: string; status: number } | null> {
+  const r = await fetchMarkdownRaw(url);
+  if (!r) return null;
+  const md = cleanMd(r.md);
+  return isUseful(md) ? { ...r, md } : null;
+}
+
+async function fetchMarkdownRaw(url: string): Promise<{ md: string; via: string; status: number } | null> {
   // 1) Jina Reader
   try {
     const headers: Record<string, string> = {};
@@ -50,24 +86,46 @@ async function fetchMarkdown(url: string): Promise<{ md: string; via: string; st
     const r = await withTimeout(fetch(`https://r.jina.ai/${url}`, { headers }));
     if (r.ok) {
       const md = (await r.text()).slice(0, MAX_MD);
-      if (md.trim()) return { md, via: "jina", status: 200 };
+      if (isUseful(md)) return { md, via: "jina", status: 200 };
     }
   } catch {
     /* fall through */
   }
-  // 2) plain fetch + Readability + Turndown
+  // 2) plain fetch (browser UA, follows redirects) + Readability + Turndown
   try {
-    const r = await withTimeout(fetch(url, { headers: { "user-agent": "SprintoOutreachBot/1.0" } }));
+    const r = await withTimeout(fetch(url, { headers: { "user-agent": BROWSER_UA, accept: "text/html" }, redirect: "follow" }));
     const status = r.status;
+    if (status >= 400) throw new Error(`http ${status}`);
     const html = await r.text();
     const dom = new JSDOM(html, { url });
     const article = new Readability(dom.window.document).parse();
     const td = new TurndownService();
     const md = td.turndown(article?.content ?? html).slice(0, MAX_MD);
-    return { md, via: "readability", status };
+    if (isUseful(md)) return { md, via: "readability", status };
   } catch {
-    return null;
+    /* fall through */
   }
+  // 3) Firecrawl (optional key)
+  if (env.FIRECRAWL_API_KEY) {
+    try {
+      const r = await withTimeout(
+        fetch("https://api.firecrawl.dev/v1/scrape", {
+          method: "POST",
+          headers: { Authorization: `Bearer ${env.FIRECRAWL_API_KEY}`, "content-type": "application/json" },
+          body: JSON.stringify({ url, formats: ["markdown"] }),
+        }),
+        20_000,
+      );
+      if (r.ok) {
+        const j = (await r.json()) as { data?: { markdown?: string } };
+        const md = (j.data?.markdown ?? "").slice(0, MAX_MD);
+        if (isUseful(md)) return { md, via: "firecrawl", status: 200 };
+      }
+    } catch {
+      /* give up */
+    }
+  }
+  return null;
 }
 
 async function robotsAllows(domain: string): Promise<(path: string) => boolean> {
@@ -222,13 +280,19 @@ export const realAdapters: Adapters = {
             content_md: res.md,
             http_status: res.status,
             fetched_via: res.via,
-            content_hash: hash(res.md),
+            content_hash: hash(res.md.replace(/\s+/g, " ").slice(0, 3000)),
             iteration,
           } as ScrapedPage;
         }),
       ),
     );
-    return pages.filter((p): p is ScrapedPage => p !== null);
+    // Drop duplicates (soft-404s that serve the homepage for every path).
+    const seen = new Set<string>();
+    return pages.filter((p): p is ScrapedPage => {
+      if (!p || seen.has(p.content_hash)) return false;
+      seen.add(p.content_hash);
+      return true;
+    });
   },
 
   async extract(domain, pages, iteration): Promise<ExtractResult> {

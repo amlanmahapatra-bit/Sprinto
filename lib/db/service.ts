@@ -7,7 +7,6 @@ import { env } from "@/lib/env";
  * so the rest of the app is unchanged. SERVER ONLY.
  */
 type Row = Record<string, unknown>;
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 type Result = { data: any; error: { message: string } | null; count?: number | null };
 
 type Q = { query: (sql: string, vals?: unknown[]) => Promise<{ rows: any[] }> };

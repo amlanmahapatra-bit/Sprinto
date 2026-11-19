@@ -1,0 +1,104 @@
+{
+  "data": {
+    "domain": "ledgerly.example",
+    "organization": "Ledgerly",
+    "pattern": "{first}",
+    "emails": [
+      {
+        "value": "ananya@ledgerly.example",
+        "type": "personal",
+        "confidence": 97,
+        "first_name": "Ananya",
+        "last_name": "Rao",
+        "position": "Co-founder & CEO",
+        "seniority": "executive",
+        "department": "executive",
+        "linkedin": null,
+        "twitter": null,
+        "phone_number": null,
+        "verification": {
+          "date": "2026-10-30",
+          "status": "valid"
+        },
+        "sources": []
+      },
+      {
+        "value": "karthik@ledgerly.example",
+        "type": "personal",
+        "confidence": 95,
+        "first_name": "Karthik",
+        "last_name": "Menon",
+        "position": "CTO",
+        "seniority": "executive",
+        "department": "it",
+        "linkedin": null,
+        "twitter": null,
+        "phone_number": null,
+        "verification": {
+          "date": "2026-10-30",
+          "status": "valid"
+        },
+        "sources": []
+      },
+      {
+        "value": "neha@ledgerly.example",
+        "type": "personal",
+        "confidence": 91,
+        "first_name": "Neha",
+        "last_name": "Iyer",
+        "position": "Head of Security & IT",
+        "seniority": "executive",
+        "department": "it",
+        "linkedin": null,
+        "twitter": null,
+        "phone_number": null,
+        "verification": {
+          "date": "2026-10-30",
+          "status": "valid"
+        },
+        "sources": []
+      },
+      {
+        "value": "rohit@ledgerly.example",
+        "type": "personal",
+        "confidence": 93,
+        "first_name": "Rohit",
+        "last_name": "Bansal",
+        "position": "VP Sales",
+        "seniority": "executive",
+        "department": "sales",
+        "linkedin": null,
+        "twitter": null,
+        "phone_number": null,
+        "verification": {
+          "date": "2026-10-30",
+          "status": "valid"
+        },
+        "sources": []
+      },
+      {
+        "value": "info.team@ledgerly.example",
+        "type": "personal",
+        "confidence": 80,
+        "first_name": "Priya",
+        "last_name": "Nair",
+        "position": "Marketing Manager",
+        "seniority": "senior",
+        "department": "marketing",
+        "linkedin": null,
+        "twitter": null,
+        "phone_number": null,
+        "verification": {
+          "date": "2026-10-30",
+          "status": "valid"
+        },
+        "sources": []
+      }
+    ]
+  },
+  "meta": {
+    "results": 5,
+    "limit": 10,
+    "offset": 0
+  }
+}

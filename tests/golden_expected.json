@@ -1,0 +1,159 @@
+{
+  "icp_version": 1,
+  "confidence_rounding": 2,
+  "cases": {
+    "ledgerly.example": {
+      "verdict": "GO",
+      "score": 95,
+      "confidence": 1.0,
+      "loops": 0,
+      "gates": [],
+      "flags": [],
+      "criterion_points": {
+        "C1": 10,
+        "C2": 20,
+        "C3": 30,
+        "C4": 15,
+        "C5": 10,
+        "C6": 5,
+        "C7": 5
+      },
+      "poc": {
+        "email": "neha@ledgerly.example",
+        "name": "Neha Iyer",
+        "persona": "security",
+        "tier": 1
+      },
+      "contact_ranking": [
+        "neha@ledgerly.example",
+        "karthik@ledgerly.example",
+        "ananya@ledgerly.example"
+      ],
+      "excluded": [
+        "rohit@ledgerly.example",
+        "info.team@ledgerly.example"
+      ],
+      "pain_points": [
+        "PP3",
+        "PP1"
+      ],
+      "pain_scores": {
+        "PP1": 4,
+        "PP3": 5,
+        "PP4": 4
+      }
+    },
+    "trustvault.example": {
+      "verdict": "GO",
+      "score": 78,
+      "confidence": 1.0,
+      "loops": 0,
+      "gates": [],
+      "flags": [
+        "ALREADY_CERTIFIED",
+        "COMPETITOR_CUSTOMER"
+      ],
+      "criterion_points": {
+        "C1": 10,
+        "C2": 20,
+        "C3": 8,
+        "C4": 15,
+        "C5": 15,
+        "C6": 5,
+        "C7": 5
+      },
+      "poc": {
+        "email": "meera.shah@trustvault.example",
+        "name": "Meera Shah",
+        "persona": "engineering",
+        "tier": 2
+      },
+      "contact_ranking": [
+        "meera.shah@trustvault.example",
+        "arjun.patel@trustvault.example"
+      ],
+      "ineligible": [
+        {
+          "email": "sana.qureshi@trustvault.example",
+          "reason": "confidence 62 < 70"
+        }
+      ],
+      "excluded": [
+        "dev.kapoor@trustvault.example"
+      ],
+      "pain_points": [
+        "PP5",
+        "PP4"
+      ],
+      "pain_scores": {
+        "PP4": 3,
+        "PP5": 4,
+        "PP6": 3,
+        "PP7": 3
+      }
+    },
+    "orbitfleet.example": {
+      "verdict": "HOLD",
+      "score": 53,
+      "confidence": 1.0,
+      "loops": 3,
+      "gates": [],
+      "flags": [
+        "BORDERLINE_SIZE"
+      ],
+      "trace": [
+        {
+          "iteration": 0,
+          "score": 13,
+          "confidence": 0.57,
+          "decision": "RESEARCH_MORE"
+        },
+        {
+          "iteration": 1,
+          "score": 48,
+          "confidence": 0.86,
+          "decision": "RESEARCH_MORE"
+        },
+        {
+          "iteration": 2,
+          "score": 53,
+          "confidence": 1.0,
+          "decision": "RESEARCH_MORE"
+        },
+        {
+          "iteration": 3,
+          "score": 53,
+          "confidence": 1.0,
+          "decision": "HOLD",
+          "reason": "no new evidence / loops exhausted"
+        }
+      ],
+      "criterion_points": {
+        "C1": 10,
+        "C2": 20,
+        "C3": 8,
+        "C4": 7,
+        "C5": 0,
+        "C6": 3,
+        "C7": 5
+      },
+      "poc": null
+    },
+    "pixelpantry.example": {
+      "verdict": "NO_GO",
+      "gates": [
+        "NOT_SAAS"
+      ],
+      "loops": 0,
+      "poc": null
+    },
+    "megacorp.example": {
+      "verdict": "NO_GO",
+      "gates": [
+        "TOO_LATE_STAGE"
+      ],
+      "loops": 0,
+      "poc": null
+    }
+  }
+}

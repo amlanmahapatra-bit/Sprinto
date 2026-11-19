@@ -1,0 +1,30 @@
+name: Weekly Discover
+
+on:
+  workflow_dispatch:
+  schedule:
+    # Monday 09:00 IST = 03:30 UTC
+    - cron: "30 3 * * 1"
+
+jobs:
+  discover:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npm run weekly
+        env:
+          NEXT_PUBLIC_SUPABASE_URL: ${{ secrets.NEXT_PUBLIC_SUPABASE_URL }}
+          NEXT_PUBLIC_SUPABASE_ANON_KEY: ${{ secrets.NEXT_PUBLIC_SUPABASE_ANON_KEY }}
+          SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          HUNTER_API_KEY: ${{ secrets.HUNTER_API_KEY }}
+          GEMINI_MODEL_FAST: ${{ secrets.GEMINI_MODEL_FAST }}
+          GEMINI_MODEL_WRITER: ${{ secrets.GEMINI_MODEL_WRITER }}
+          SENDER_NAME: ${{ secrets.SENDER_NAME }}
+          DEMO_RECIPIENT: ${{ secrets.DEMO_RECIPIENT }}
+          APP_BASE_URL: ${{ secrets.APP_BASE_URL }}

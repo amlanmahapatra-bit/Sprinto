@@ -1,0 +1,2 @@
+domain,first_name,last_name,email,position,source
+# Option B (Apollo): one row per domain, looked up manually before the session. Rows here override Hunter.

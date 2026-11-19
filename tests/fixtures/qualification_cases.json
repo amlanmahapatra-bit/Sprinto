@@ -1,0 +1,162 @@
+{
+  "icp_version": 1,
+  "note": "Scorer input per case. research_deltas are scripted tool results the mock research agent returns per loop iteration (merged into signals after the quote check).",
+  "cases": {
+    "ledgerly.example": {
+      "company_name": "Ledgerly",
+      "initial_signals": {
+        "is_saas": true,
+        "funding_stage": "series_b",
+        "funding_date": "2026-08-19",
+        "employees_min": 120,
+        "employees_max": 120,
+        "hiring_compliance_role": true,
+        "security_in_progress": true,
+        "enterprise_pressure": true,
+        "already_certified": false,
+        "competitor_vendor": null,
+        "enterprise_customers": true,
+        "customer_count": null,
+        "industry": "fintech",
+        "cloud_providers": [
+          "aws"
+        ],
+        "ai_product": false,
+        "expansion_regions": [
+          "US"
+        ]
+      },
+      "research_deltas": []
+    },
+    "trustvault.example": {
+      "company_name": "TrustVault",
+      "initial_signals": {
+        "is_saas": true,
+        "funding_stage": "series_b",
+        "funding_date": "2025-11-04",
+        "employees_min": 150,
+        "employees_max": 150,
+        "hiring_compliance_role": false,
+        "security_in_progress": false,
+        "enterprise_pressure": true,
+        "already_certified": true,
+        "competitor_vendor": "vanta",
+        "enterprise_customers": true,
+        "customer_count": 80,
+        "industry": "hrtech",
+        "cloud_providers": [
+          "gcp"
+        ],
+        "ai_product": false,
+        "expansion_regions": []
+      },
+      "research_deltas": []
+    },
+    "orbitfleet.example": {
+      "company_name": "OrbitFleet",
+      "initial_signals": {
+        "is_saas": true,
+        "funding_stage": null,
+        "funding_date": null,
+        "employees_min": null,
+        "employees_max": null,
+        "hiring_compliance_role": false,
+        "security_in_progress": false,
+        "enterprise_pressure": null,
+        "already_certified": null,
+        "competitor_vendor": null,
+        "enterprise_customers": false,
+        "customer_count": 40,
+        "industry": "logistics",
+        "cloud_providers": null,
+        "ai_product": null,
+        "expansion_regions": null
+      },
+      "research_deltas": [
+        {
+          "iteration": 1,
+          "tool": "news_search",
+          "args": {
+            "query": "OrbitFleet orbitfleet.example funding"
+          },
+          "signals": {
+            "funding_stage": "series_a",
+            "funding_date": "2026-06-12",
+            "enterprise_pressure": true,
+            "employees_min": 45,
+            "employees_max": 45,
+            "expansion_regions": [
+              "US"
+            ]
+          }
+        },
+        {
+          "iteration": 2,
+          "tool": "dns_lookup",
+          "args": {
+            "domain": "orbitfleet.example"
+          },
+          "signals": {
+            "cloud_providers": [
+              "aws"
+            ]
+          }
+        },
+        {
+          "iteration": 3,
+          "tool": "google_search",
+          "args": {
+            "query": "OrbitFleet SOC 2 security"
+          },
+          "signals": {}
+        }
+      ]
+    },
+    "pixelpantry.example": {
+      "company_name": "PixelPantry",
+      "initial_signals": {
+        "is_saas": false,
+        "funding_stage": null,
+        "funding_date": null,
+        "employees_min": 60,
+        "employees_max": 60,
+        "hiring_compliance_role": null,
+        "security_in_progress": null,
+        "enterprise_pressure": null,
+        "already_certified": null,
+        "competitor_vendor": null,
+        "enterprise_customers": null,
+        "customer_count": null,
+        "industry": "b2c",
+        "cloud_providers": null,
+        "ai_product": null,
+        "expansion_regions": null
+      },
+      "research_deltas": []
+    },
+    "megacorp.example": {
+      "company_name": "MegaCorp",
+      "initial_signals": {
+        "is_saas": true,
+        "funding_stage": "public",
+        "funding_date": null,
+        "employees_min": 12000,
+        "employees_max": 12000,
+        "hiring_compliance_role": null,
+        "security_in_progress": null,
+        "enterprise_pressure": null,
+        "already_certified": true,
+        "competitor_vendor": null,
+        "enterprise_customers": true,
+        "customer_count": null,
+        "industry": "other_b2b",
+        "cloud_providers": [
+          "azure"
+        ],
+        "ai_product": null,
+        "expansion_regions": null
+      },
+      "research_deltas": []
+    }
+  }
+}

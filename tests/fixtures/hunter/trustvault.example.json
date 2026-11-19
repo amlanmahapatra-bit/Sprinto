@@ -1,0 +1,86 @@
+{
+  "data": {
+    "domain": "trustvault.example",
+    "organization": "TrustVault",
+    "pattern": "{first}.{last}",
+    "emails": [
+      {
+        "value": "arjun.patel@trustvault.example",
+        "type": "personal",
+        "confidence": 94,
+        "first_name": "Arjun",
+        "last_name": "Patel",
+        "position": "Co-founder & CEO",
+        "seniority": "executive",
+        "department": "executive",
+        "linkedin": null,
+        "twitter": null,
+        "phone_number": null,
+        "verification": {
+          "date": "2026-10-30",
+          "status": "valid"
+        },
+        "sources": []
+      },
+      {
+        "value": "meera.shah@trustvault.example",
+        "type": "personal",
+        "confidence": 88,
+        "first_name": "Meera",
+        "last_name": "Shah",
+        "position": "CTO",
+        "seniority": "executive",
+        "department": "it",
+        "linkedin": null,
+        "twitter": null,
+        "phone_number": null,
+        "verification": {
+          "date": "2026-10-30",
+          "status": "valid"
+        },
+        "sources": []
+      },
+      {
+        "value": "sana.qureshi@trustvault.example",
+        "type": "personal",
+        "confidence": 62,
+        "first_name": "Sana",
+        "last_name": "Qureshi",
+        "position": "Compliance Manager",
+        "seniority": "senior",
+        "department": "legal",
+        "linkedin": null,
+        "twitter": null,
+        "phone_number": null,
+        "verification": {
+          "date": "2026-10-30",
+          "status": "accept_all"
+        },
+        "sources": []
+      },
+      {
+        "value": "dev.kapoor@trustvault.example",
+        "type": "personal",
+        "confidence": 90,
+        "first_name": "Dev",
+        "last_name": "Kapoor",
+        "position": "Head of People",
+        "seniority": "executive",
+        "department": "hr",
+        "linkedin": null,
+        "twitter": null,
+        "phone_number": null,
+        "verification": {
+          "date": "2026-10-30",
+          "status": "valid"
+        },
+        "sources": []
+      }
+    ]
+  },
+  "meta": {
+    "results": 4,
+    "limit": 10,
+    "offset": 0
+  }
+}

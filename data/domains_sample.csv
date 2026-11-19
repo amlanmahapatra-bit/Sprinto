@@ -1,0 +1,6 @@
+domain,note
+ledgerly.example,fixture: expected GO (offline test only)
+trustvault.example,fixture: expected GO + review flags (offline test only)
+orbitfleet.example,fixture: expected HOLD after agent loop (offline test only)
+pixelpantry.example,fixture: expected NO_GO NOT_SAAS (offline test only)
+megacorp.example,fixture: expected NO_GO TOO_LATE_STAGE (offline test only)
